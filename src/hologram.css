@@ -1,0 +1,276 @@
+/* Star Wars Hologram Effects */
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes hologramFlicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.8; }
+  94% { opacity: 1; }
+  95% { opacity: 0.6; }
+  96% { opacity: 1; }
+  97% { opacity: 0.9; }
+  98% { opacity: 1; }
+}
+
+@keyframes hologramGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.8)) drop-shadow(0 0 20px rgba(0, 212, 255, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 12px rgba(0, 212, 255, 1)) drop-shadow(0 0 30px rgba(0, 212, 255, 0.6));
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.02); opacity: 0.9; }
+}
+
+@keyframes staticNoise {
+  0% { background-position: 0 0; }
+  100% { background-position: 100% 100%; }
+}
+
+@keyframes textGlitch {
+  0%, 100% { transform: translateX(0); }
+  92% { transform: translateX(0); }
+  93% { transform: translateX(-2px); }
+  94% { transform: translateX(2px); }
+  95% { transform: translateX(-1px); }
+  96% { transform: translateX(1px); }
+  97% { transform: translateX(0); }
+}
+
+@keyframes projectorBeam {
+  0% { opacity: 0.3; }
+  50% { opacity: 0.5; }
+  100% { opacity: 0.3; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes typing {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.hologram-container {
+  position: relative;
+  background: linear-gradient(180deg, rgba(0, 20, 40, 0.9) 0%, rgba(10, 10, 18, 0.98) 100%);
+}
+
+.hologram-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 212, 255, 0.03) 2px,
+      rgba(0, 212, 255, 0.03) 4px
+    );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.scanline-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 212, 255, 0.05) 50%,
+    transparent 100%
+  );
+  height: 100px;
+  animation: scanline 4s linear infinite;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.hologram-figure {
+  animation: hologramFlicker 4s infinite, hologramGlow 2s ease-in-out infinite;
+  position: relative;
+}
+
+.hologram-figure::after {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(
+    ellipse at center bottom,
+    rgba(0, 212, 255, 0.2) 0%,
+    transparent 70%
+  );
+  animation: projectorBeam 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.hologram-text {
+  color: #00D4FF;
+  text-shadow:
+    0 0 10px rgba(0, 212, 255, 0.8),
+    0 0 20px rgba(0, 212, 255, 0.4),
+    0 0 30px rgba(0, 212, 255, 0.2);
+  animation: textGlitch 5s infinite;
+}
+
+.message-bubble {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 212, 255, 0.1) 0%,
+    rgba(0, 100, 150, 0.05) 100%
+  );
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.message-bubble::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 1px,
+    rgba(0, 212, 255, 0.02) 1px,
+    rgba(0, 212, 255, 0.02) 2px
+  );
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.user-message {
+  background: linear-gradient(
+    135deg,
+    rgba(100, 200, 255, 0.15) 0%,
+    rgba(50, 150, 200, 0.1) 100%
+  );
+  border-color: rgba(100, 200, 255, 0.4);
+}
+
+.grid-background {
+  background-image:
+    linear-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.projector-base {
+  background: linear-gradient(180deg, #1a1a2e 0%, #0a0a12 100%);
+  border-top: 2px solid rgba(0, 212, 255, 0.5);
+  box-shadow:
+    0 -10px 50px rgba(0, 212, 255, 0.2),
+    inset 0 2px 10px rgba(0, 212, 255, 0.1);
+}
+
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+  padding: 12px 16px;
+}
+
+.typing-indicator span {
+  width: 8px;
+  height: 8px;
+  background: #00D4FF;
+  border-radius: 50%;
+  animation: typing 1s ease-in-out infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.persona-card {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.persona-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 212, 255, 0) 0%,
+    rgba(0, 212, 255, 0.1) 50%,
+    rgba(0, 212, 255, 0) 100%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.persona-card:hover::before {
+  transform: translateX(100%);
+}
+
+.persona-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 10px 40px rgba(0, 212, 255, 0.3),
+    0 0 0 1px rgba(0, 212, 255, 0.5);
+}
+
+.btn-hologram {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.2) 0%, rgba(0, 150, 200, 0.1) 100%);
+  border: 1px solid rgba(0, 212, 255, 0.5);
+  color: #00D4FF;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-hologram:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.3) 0%, rgba(0, 150, 200, 0.2) 100%);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-hologram:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.input-hologram {
+  background: rgba(10, 10, 18, 0.8);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  color: #E0FFFF;
+  transition: all 0.3s ease;
+}
+
+.input-hologram:focus {
+  outline: none;
+  border-color: rgba(0, 212, 255, 0.7);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+}
+
+.input-hologram::placeholder {
+  color: rgba(0, 212, 255, 0.4);
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .hologram-figure {
+    transform: scale(0.8);
+  }
+
+  .grid-background {
+    background-size: 30px 30px;
+  }
+}
